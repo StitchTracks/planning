@@ -1,0 +1,45 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @chapter.track.name, track_path(@chapter.track) %>
+</div>
+
+<div class="button-container">
+    <%= link_to "Preview chapter", preview_chapter_path %> |
+    <%= link_to "Edit chapter", edit_chapter_path %> |
+    <%= link_to "Delete chapter", url_for(action: :destroy, id: @chapter.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+</div>
+
+<h1><%= @chapter.track.name %> &raquo; <%= @chapter.name %></h1>
+
+<% @chapter.sections.each do |section| %>
+    <div class="list-level-1">
+        <%= section.index %>. <%= link_to section.name, section_path(section) %>
+    </div>
+        <div class="list-level-2" style="font-size: x-small">&middot;
+        <% section.pok_items.each do |pok_item| %>
+            <%= pok_item.name %> &middot;
+        <% end %>
+        </div>
+<% end %>
+
+<h2>Add new section</strong></h2>
+
+<div>
+    <%= form_with model: @section, url: sections_path, method: :post do |f| %>
+        <%= f.hidden_field :chapter_id, value: @chapter.id %>
+        <table>
+            <tr>
+                <td><%= f.label :index %></td>
+                <td><%= f.label :name %></td>
+            </tr>
+            <tr>
+                <td><%= f.number_field :index, value: 0 %></td>
+                <td><%= f.text_field :name %></td>
+            </tr>
+        </table>
+        <div>
+            <%= f.submit %>
+        </div>
+    <% end %>
+</div>

@@ -1,0 +1,24 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @chapter.track.name, track_path(@chapter.track) %> &raquo;
+    <%= link_to @chapter.name, chapter_path(@chapter) %>
+</div>
+
+<div class="preview-chapter-name"><%= @chapter.name %></div>
+
+<% @chapter.sections.each do |section| %>
+    
+    <% if section. index > 0 %>
+        <div class="preview-section-name"><%= section.name %></div>
+    <% end %>
+
+    <% section.chunks.each do |chunk| %>
+
+        <div class="preview-chunk-<%= chunk.type %>">
+            <%= chunk.content_to_html %>
+        </div>
+
+    <% end %>
+    
+<% end %>

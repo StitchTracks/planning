@@ -1,0 +1,23 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @track.name, track_path(@track) %>
+</div>
+
+<h1>Edit track</h1>
+
+<div>
+    <%= form_with(model: @track) do |f| %>
+        <div>
+            <%= f.label :index %><br />
+            <%= f.number_field :index %>
+        </div>
+        <div>
+            <%= f.label :name %><br />
+            <%= f.text_field :name %>
+        </div>
+        <div>
+            <%= f.submit %>
+        </div>
+    <% end %>
+</div>

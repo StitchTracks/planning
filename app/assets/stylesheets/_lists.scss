@@ -1,0 +1,19 @@
+@use "colors";
+
+$m-unit: 30px;
+
+@mixin lists {
+    .list-level-1 { margin-left: $m-unit; font-weight: 700; font-size: large; }
+    .list-level-2 { margin-left: $m-unit * 2; font-weight: 500; font-size: medium; }
+    .list-level-3 { margin-left: $m-unit * 3; font-weight: 700; font-size: small; }
+    .list-level-4 { margin-left: $m-unit * 4; font-weight: 500; font-size: small; }
+    .list-level-5 { margin-left: $m-unit * 5; font-weight: 700; font-size: x-small; }
+    .list-level-6 { margin-left: $m-unit * 6; font-weight: 500; font-size: x-small; }
+    .list-level-7 { margin-left: $m-unit * 7; font-weight: 700; font-size: xx-small; }
+    .list-level-8 { margin-left: $m-unit * 8; font-weight: 500; font-size: xx-small; }
+}
+
+@mixin c-lists($scheme) {
+    .faded { color: colors.get($scheme, "content-fade"); }
+    .highlighted { color: colors.get($scheme, "alert"); }
+}

@@ -1,0 +1,50 @@
+<h1>Chapters</h1>
+
+<% @chapters.each do |chapter| %>
+    <% descendants = PokItem.none %>
+    <% sections = chapter.children %>
+    <% descendants = descendants.or(sections) %>        
+    <% sections.each do |section| %>
+        <% subsections = section.children %>
+        <% descendants = descendants.or(subsections) %>
+        <% subsections.each do |subsection| %>
+            <% details = subsection.children %>
+            <% descendants = descendants.or(details) %>
+            <% details.each do |detail| %>
+                <% subdetails = detail.children %>
+                <% descendants = descendants.or(subdetails) %>
+                <% subdetails.each do |subdetail| %>
+                    <% extras = subdetail.children %>
+                    <% descendants = descendants.or(extras) %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% incomplete = descendants.where(section: nil).count %>
+    <% total = descendants.count %>
+    <% percent_incomplete = ((incomplete.to_f / total.to_f) * 100).round %>
+    <% percent_complete = 100 - percent_incomplete %>
+
+    <% color = percent_complete == 100 ? "#bfbfbf" : "#404040"%>
+
+    <div>
+        <%= link_to chapter.name, pok_item_path(chapter.id), style: "color:#{color}" %> 
+        <span style="color:<%= color %>">(<%= percent_complete %>%)</span>
+    </div>
+        <% if chapter.section == nil %>
+            <%= form_with url: assign_to_chapter_pok_item_path(chapter), method: :patch do |f| %>
+                <%= f.hidden_field :pok_item_id, value: chapter.id %>
+                <%= f.submit "subdirectory_arrow_right", class: "material-icons little-button" %>
+                <%= f.collection_select :st_chapter_id, Chapter.where(index: 0), :id, :full_name, selected: default_chapter_id %>
+            <% end %>
+        <% else %>
+            <span style="font-size: xx-small; color: cornflowerblue;">
+                [<%= chapter.section.chapter.track.name %> | <%= chapter.section.chapter.name %>]
+            </span>
+            <%= form_with url: unassign_pok_item_path(chapter), class: "inline", method: :patch do |f| %>
+                <%= f.hidden_field :pok_item_id, value: chapter.id %>
+                <%= f.submit "highlight_off", data: {turbo_confirm: 'Are you sure?'}, class: "material-icons little-button alert" %>
+            <% end %>
+        <% end %>
+<% end %>

@@ -1,0 +1,10 @@
+<h1>PoK orphans</h1>
+
+<h4><%= PokItem.where(section: nil).count %> orphans</h4>
+
+<% @pok_items.each do |item| %>
+	<% additional_class = item.section ? "faded hidden" : "highlighted" %>
+	<div class="list-level-<%= item.level %> <%= additional_class %>">
+		<%= item.name %> (<%= item.page %>)
+	</div>
+<% end %>

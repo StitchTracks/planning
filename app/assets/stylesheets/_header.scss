@@ -1,0 +1,25 @@
+@use "colors";
+
+@mixin header {
+    .header {
+        position: relative;
+        z-index: 500; 
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        height: 60px;
+        a {
+            text-decoration: none;
+        }
+    }
+}
+
+@mixin c-header($scheme) {
+    .header {
+        background-color: colors.get($scheme, "primary");
+        box-shadow: 0px 2px 2px colors.get($scheme, "content-fade");
+        a {
+            color: colors.get($scheme, "blanket");
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @section.chapter.track.name, track_path(@section.chapter.track) %> &raquo;
+    <%= link_to @section.chapter.name, chapter_path(@section.chapter) %> &raquo;
+    <%= link_to @section.name, section_path(@section) %>
+</div>
+
+<h1>Edit section</h1>
+
+<div>
+    <%= form_with(model: @section) do |f| %>
+        <div>
+            <%= f.label :index %><br />
+            <%= f.number_field :index %>
+        </div>
+        <div>
+            <%= f.label :name %><br />
+            <%= f.text_field :name %>
+        </div>
+        <div>
+            <%= f.submit %>
+        </div>
+    <% end %>
+</div>

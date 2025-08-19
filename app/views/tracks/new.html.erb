@@ -1,0 +1,22 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %>
+</div>
+
+<h1>New track</h1>
+
+<div>
+    <%= form_with model: @track, url: tracks_path, method: :post do |f| %>
+        <div>
+            <%= f.label :index %><br />
+            <%= f.number_field :index, value: 0 %>
+        </div>
+        <div>
+            <%= f.label :name %><br />
+            <%= f.text_field :name %>
+        </div>
+        <div>
+            <%= f.submit %>
+        </div>
+    <% end %>
+</div>

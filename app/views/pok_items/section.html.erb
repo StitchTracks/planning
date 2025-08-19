@@ -1,0 +1,30 @@
+<div>
+    <%= link_to @pok_section.parent_item.name, pok_item_path(@pok_section.parent_item.id) %>
+</div>
+
+<h1><%= @pok_section.name %> (<%= @pok_section.page %>)</h1>
+
+<% @pok_items.each do |pok_item| %>
+    <div class="list-level-<%= pok_item.level - 1 %>">
+        <% if pok_item.level == 3 %>
+            <%= link_to "#{pok_item.name} (#{pok_item.page})", pok_item_path(pok_item.id) %>
+        <% else %>
+            <%= pok_item.name %> (<%= pok_item.page %>)
+        <% end %>
+        <% if pok_item.section == nil %>
+            <%= form_with url: assign_to_chapter_pok_item_path(@pok_section), method: :patch do |f| %>
+                <%= f.hidden_field :pok_item_id, value: pok_item.id %>
+                <%= f.submit "subdirectory_arrow_right", class: "material-icons little-button" %>
+                <%= f.collection_select :st_chapter_id, Chapter.where(index: 0), :id, :full_name, selected: default_chapter_id %>
+            <% end %>
+        <% else %>
+            <span style="font-size: xx-small; color: cornflowerblue;">
+                [<%= pok_item.section.chapter.track.name %> | <%= pok_item.section.chapter.name %>]
+            </span>
+            <%= form_with url: unassign_pok_item_path(@pok_section), class: "inline", method: :patch do |f| %>
+                <%= f.hidden_field :pok_item_id, value: pok_item.id %>
+                <%= f.submit "highlight_off", class: "material-icons little-button alert" %>
+            <% end %>
+        <% end %>
+    </div>
+<% end %>

@@ -1,0 +1,33 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @chunk.section.chapter.track.name, track_path(@chunk.section.chapter.track) %> &raquo;
+    <%= link_to @chunk.section.chapter.name, chapter_path(@chunk.section.chapter) %> &raquo;
+    <%= link_to @chunk.section.name, section_path(@chunk.section) %>
+</div>
+
+<h1>Edit chunk</h1>
+
+<div>
+    <%= form_with model: @chunk, url: chunk_path(@chunk), method: :patch do |f| %>
+        <div>
+            <%= f.label :index %><br />
+            <%= f.number_field :index %>
+        </div>
+        <div data-controller="chunk-forms">
+            <%= f.label :content %><br />
+            <% if @chunk.type == "Copy" || @chunk.type == "Pattern" %>
+                <%= f.rich_text_area :content, style: "height: 300px" %>
+            <% end %>
+            <% if @chunk.type == "Subtitle" || @chunk.type == "Video" %>
+                <%= f.text_field :content, style: "width: 100%" %>
+            <% end %>
+            <% if @chunk.type == "Figure" %>
+                <%= f.hidden_field :content, data: {target: 'chunk-forms.figContent'} %>
+                <%= f.number_field :fig_num, value: @fig_num, data: {target: 'chunk-forms.figNum', action: 'chunk-forms#refreshFigContent'} %>
+                <%= f.text_field :fig_desc, value: @fig_desc, data: {target: 'chunk-forms.figDesc', action: 'chunk-forms#refreshFigContent'}, style: "width: 100%" %>
+            <% end %>
+        </div>
+        <%= f.submit %>
+    <% end %>
+</div>

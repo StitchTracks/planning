@@ -1,0 +1,12 @@
+<h1>PoK items for <%= @track.name %> (<%= @track.pok_count %>)</h1>
+
+<% @pok_items.each do |pok_item| %>
+	<div class="list-level-<%= pok_item.level %>">
+		<%= pok_item.name %>
+		<%= form_with url: assign_to_chapter_track_path(@track), class: "inline", method: :patch do |f| %>
+			<%= f.hidden_field :pok_item_id, value: pok_item.id %>
+			<%= f.submit "arrow_forward", class: "material-icons little-button" %>
+			<%= f.collection_select :st_chapter_id, Chapter.where(index: 0), :id, :full_name, selected: default_chapter_id %>
+		<% end %>
+	</div>
+<% end %>

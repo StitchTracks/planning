@@ -1,0 +1,90 @@
+@use "sass:map";
+
+$default: (
+    "blanket": #f0edeb,
+    "background": #f9f8f8,
+    "primary": #6c95b9,
+    "primary-intense": #244a6c,
+    "primary-subtle": #d3e4f2,
+    "contrast": #af9d8d,
+    "contrast-subtle": #e3dbd3,
+    "content": #404040,
+    "content-fade": #bfbfbf,
+    "alert": #903749
+);
+
+$dark: (
+    "blanket": #373037,
+    "background": #1d1c1d,
+    "primary": #bbb6b0,
+    "primary-intense": #f6f2ea,
+    "primary-subtle": #807870,
+    "contrast": #eddabb,
+    "content": #f6f2ea,
+    "content-fade": #181818,
+    "alert": #a25061
+);
+
+$heather: (
+    "blanket": #f6ebf7,
+    "background": #f9f8f9,
+    "primary": #6b896a,
+    "primary-intense": #485c47,
+    "primary-subtle": #dbe7d1,
+    "contrast": #926a95,
+    "content": #404040,
+    "content-fade": #bfbfbf,
+    "alert": #8e3277
+);
+
+$mono: (
+    "blanket": #fafafa,
+    "background": #fcfafa,
+    "primary": #595959,
+    "primary-intense": #333333,
+    "primary-subtle": #cccccc,
+    "contrast": #808080,
+    "content": #404040,
+    "content-fade": #bfbfbf,
+    "alert": #9e3737
+);
+
+$retro: (
+    "blanket": #f7f6eb,
+    "background": #f6fafb,
+    "primary": #e0a03e,
+    "primary-intense": #9e2c2b,
+    "primary-subtle": #fff3b1,
+    "contrast": #335c68,
+    "content": #460b06,
+    "content-fade": #bfbfbf,
+    "alert": #790c0b
+);
+
+$toon: (
+    "blanket": #f9f4f5,
+    "background": #fcfcfc,
+    "primary": #c6555e,
+    "primary-intense": #aa313a,
+    "primary-subtle": #cff7f7,
+    "contrast": #00a8a9,
+    "content": #404040,
+    "content-fade": #bfbfbf,
+    "alert": #c8202d
+);
+
+$schemes: (
+    "default": $default,
+    "dark": $dark,
+    "heather": $heather,
+    "mono": $mono,
+    "retro": $retro,
+    "toon": $toon
+);
+
+
+@function get($m, $k) {
+    $s: map.get($schemes, $m);
+    $c: map.get($s, $k);
+    @return $c;
+}

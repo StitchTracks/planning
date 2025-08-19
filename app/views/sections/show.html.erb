@@ -1,0 +1,127 @@
+<div>
+	<%= link_to "Home", root_path %> &raquo;
+	<%= link_to "Tracks", tracks_path %> &raquo;
+	<%= link_to @section.chapter.track.name, track_path(@section.chapter.track) %> &raquo;
+	<%= link_to @section.chapter.name, chapter_path(@section.chapter) %>
+</div>
+
+<div class="button-container">
+	<%= link_to "Edit section", edit_section_path %> |
+	<%= link_to "Delete section", url_for(action: :destroy, id: @section.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+</div>
+
+<h1><%= @section.chapter.track.name %> &raquo; <%= @section.chapter.name %> &raquo; <%= @section.name %></h1>
+
+<div>
+	<table>
+		<% @section.chunks.each do |chunk| %>
+			<tr>
+				<td style="width:100px">
+					<%= form_with url: move_chunk_section_path(@section), method: :patch, class: "tiny-form" do |f| %>
+						<%= f.hidden_field :chunk_id, value: chunk.id %>
+						<%= f.hidden_field :direction, value: "up" %>
+						<%= f.submit "arrow_downward", class: "material-icons little-button" %>
+					<% end %>
+					<%= form_with url: move_chunk_section_path(@section), method: :patch, class: "tiny-form" do |f| %>
+						<%= f.hidden_field :chunk_id, value: chunk.id %>
+						<%= f.hidden_field :direction, value: "down" %>
+						<%= f.submit "arrow_upward", class: "material-icons little-button" %>
+					<% end %>
+					<%= form_with url: remove_chunk_section_path(@section), method: :patch, class: "tiny-form" do |f| %>
+						<%= f.hidden_field :chunk_id, value: chunk.id %>
+						<%= f.submit "highlight_off", class: "material-icons little-button alert" %>
+					<% end %>
+					<%= link_to "edit_square", edit_chunk_path(chunk), class: "material-icons little-button" %>
+				</td>
+				<td><%= chunk.index %></td>
+				<td>
+					<div class="chunk-<%= chunk.type %>">
+						<%= chunk.content_to_html %>
+					</div>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+</div>
+
+<div data-controller="chunk-forms" style="margin-top: 30px;">
+	<hr />
+	<button id="show-form-btn-subtitle" data-action="chunk-forms#toggleForm">Add subtitle</button>
+	<button id="show-form-btn-copy" data-action="chunk-forms#toggleForm">Add copy</button>
+	<button id="show-form-btn-figure" data-action="chunk-forms#toggleForm">Add figure</button>
+	<button id="show-form-btn-video" data-action="chunk-forms#toggleForm">Add video</button>
+	<button id="show-form-btn-pattern" data-action="chunk-forms#toggleForm">Add pattern</button>
+	<div class="form-container hidden" data-chunk-forms-target="formSubtitle">
+		<%= form_with url: add_subtitle_chunk_section_path(@section), method: :patch do |f| %>
+			<%= f.label :subtitle %><br />
+			<%= f.text_field :subtitle %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+	<div class="form-container hidden" data-chunk-forms-target="formCopy">
+		<%= form_with url: add_copy_chunk_section_path(@section), method: :patch do |f| %>
+			<%= f.label :copy %><br />
+			<%= f.rich_text_area :copy, style: "height: 300px" %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+	<div class="form-container hidden" data-chunk-forms-target="formFigure">
+		<%= form_with url: add_figure_chunk_section_path(@section), method: :patch do |f| %>
+			<%= f.number_field :fig_num, in: 1..99, step: 1, value: 1 %>
+			<%= f.text_field :fig_desc %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+	<div class="form-container hidden" data-chunk-forms-target="formVideo">
+		<%= form_with url: add_video_chunk_section_path(@section), method: :patch do |f| %>
+			Video description<br />
+			<%= f.text_field :video_desc %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+	<div class="form-container hidden" data-chunk-forms-target="formPattern">
+		<%= form_with url: add_pattern_chunk_section_path(@section), method: :patch do |f| %>
+			<%= f.label :pattern %><br />
+			<%= f.rich_text_area :pattern, style: "height: 300px" %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+</div>
+<hr>
+<div>
+	<h4>PoK items:</h4>
+	<div style="display: flex;">
+		<div data-controller="pok-items">
+			<%= form_with url: associate_pok_item_section_path(@section), method: :patch do |f| %>
+				<div>
+					<strong>Add PoK item from page</strong>
+					<%= f.number_field :pok_page, in: 3..650, step: 1, autofocus: true, "data-action": "pok-items#populate_for_page" %>
+					<%= f.submit "Add" %>
+				</div>
+				<div>
+					<%= f.collection_select :pok_item, PokItem.where(section: nil).where(page: 3), :id, :name %>
+				</div>
+			<% end %>
+		</div>
+		<div style="margin-left: 60px;">
+			<%= form_with url: absorb_orphan_PoKs_section_path, method: :patch do |f| %>
+				<%= f.submit "Absorb PoK orphans" %>
+			<% end %>
+		</div>
+	</div>
+	<hr>
+	<% @section.pok_items.each do |pok_item| %>
+		<div>
+			<%= form_with url: unassociate_pok_item_section_path(@section), method: :patch do |f| %>
+				<%= f.hidden_field :pok_item_id, value: pok_item.id %>
+				<%= f.submit "highlight_off", class: "material-icons little-button alert" %>
+				<%= pok_item.description %> (<%= pok_item.page %>)
+			<% end %>
+			<%= form_with model: pok_item, url: move_pok_item_to_section_path(@section), method: :patch do |f| %>
+				<%= f.hidden_field :pok_item_id, value: pok_item.id %>
+				<%= f.submit "subdirectory_arrow_right", class: "material-icons little-button" %>
+				<%= f.collection_select :section_id, @section.chapter.sections, :id, :name %>
+			<% end %>
+		</div>
+	<% end %>
+</div>

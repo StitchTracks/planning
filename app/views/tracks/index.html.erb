@@ -1,0 +1,33 @@
+<div>
+    <%= link_to "Home", root_path %>
+</div>
+
+<div class="button-container">
+    <%= link_to  "New track", new_track_path %>
+</div>
+
+<h1>Tracks</h1>
+
+<% @tracks.each do |track| %>
+    <div style="display: flex; justify-content: space-between; background-color: <%= cycle("#eee", "#ddf") %>;">
+        <div class="list-level-1">
+            <%= track.index %>. <%= link_to track.name, track_path(track) %>
+        </div>
+        <div>
+            [<%= track.pok_count %> | <%= ((track.pok_count.to_f / 2523.0) * 100).round %>%]
+        </div>
+    </div>
+        
+        <% track.chapters.each do |chapter| %>
+            <% if chapter.index != 0 %>
+                <div class="list-level-2">
+                    <%= link_to chapter.name, chapter_path(chapter), style: "text-decoration:none" %>
+                    <%= form_with url: move_to_tracks_path, class: "inline", method: :patch do |f| %>
+                        <%= f.hidden_field :chapter_id, value: chapter.id %>
+                        <%= f.submit "arrow_forward", class: "material-icons little-button" %>
+                        <%= f.collection_select :new_track_id, Track.all, :id, :name, selected: track.id %>
+                    <% end %>
+                </div>
+            <% end %>
+        <% end %>
+<% end %>

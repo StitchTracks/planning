@@ -1,0 +1,66 @@
+@use "colors";
+@use "fonts";
+
+@mixin preview {
+    .preview-header {
+        font-family: fonts.$header;
+        font-weight: 700;
+        margin: 12px 0;
+    }
+    .preview-chapter-name {
+        @extend .preview-header;
+        font-size: 2.5em;
+    }
+    .preview-section-name {
+        @extend .preview-header;
+        font-size: 2em;
+        padding-top: 6px;
+    }
+    .preview-chunk-Subtitle {
+        @extend .preview-header;
+        margin: 12px;
+        font-size: 1.3em;
+    }
+    .preview-chunk-Copy {
+        margin-left: 10px;
+        margin: 12px;
+        font-size: 1.1em;
+    }
+    .preview-chunk-Pattern {
+        @extend .preview-chunk-Copy;
+        padding: 6px;
+        font-family: fonts.$pattern;
+    }
+    .preview-chunk-Figure, .preview-chunk-Video {
+        @extend .preview-chunk-Copy;
+        width: 50%;
+        margin: 12px auto;
+        text-align: center;
+        font-size: 1em;
+    }
+}
+
+@mixin c-preview($scheme) {
+    .preview-chapter-name, .preview-chunk-Subtitle {
+        color: colors.get($scheme, "primary");
+    }
+    .preview-section-name {
+        color: colors.get($scheme, "contrast");
+        border-top: dashed 1px colors.get($scheme, "contrast");
+    }
+    .preview-chunk-Copy {
+        color: colors.get($scheme, "content");
+    }
+    .preview-chunk-Figure {
+        background-color: colors.get($scheme, "primary-subtle");
+        border: solid 1px colors.get($scheme, "content-fade");
+    }
+    .preview-chunk-Video {
+        background-color: #ebcfcf;
+        border: solid 1px colors.get($scheme, "content-fade");
+    }
+    .preview-chunk-Pattern {
+        background-color: colors.get($scheme, "contrast-subtle");
+        border: solid 1px colors.get($scheme, "content-fade");
+    }
+}
