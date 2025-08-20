@@ -89,7 +89,7 @@
 </div>
 <hr>
 <div>
-	<h4>PoK items:</h4>
+	<h4>Items:</h4>
 	<div style="display: flex;">
 		<div data-controller="pok-items">
 			<%= form_with url: associate_pok_item_section_path(@section), method: :patch do |f| %>
@@ -108,8 +108,28 @@
 				<%= f.submit "Absorb PoK orphans" %>
 			<% end %>
 		</div>
+		<div style="margin-left: 60px;">
+			<%= form_with url: associate_subject_item_section_path(@section), method: :patch do |f| %>
+				<div>
+					<strong>Add subject item</strong>
+					<%= f.submit "Add" %>
+				</div>
+				<div>
+					<%= f.collection_select :subject_item, SubjectItem.where(section: nil), :id, :name %>
+				</div>
+			<% end %>
+		</div>
 	</div>
 	<hr>
+	<% @section.subject_items.each do |subject_item| %>
+		<div class="notice">
+			<%= form_with url: unassociate_subject_item_section_path(@section), method: :patch do |f| %>
+				<%= f.hidden_field :subject_item_id, value: subject_item.id %>
+				<%= f.submit "highlight_off", class: "material-icons little-button alert" %>
+				<%= subject_item.name %>
+			<% end %>
+		</div>
+	<% end %>
 	<% @section.pok_items.each do |pok_item| %>
 		<div>
 			<%= form_with url: unassociate_pok_item_section_path(@section), method: :patch do |f| %>

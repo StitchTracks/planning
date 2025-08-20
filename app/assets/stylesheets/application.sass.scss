@@ -42,6 +42,10 @@ body {
         border: none;
         background: none;
     }
+
+    a {
+        text-decoration: none;
+    }
 }
 
 @each $scheme, $map in colors.$schemes {
@@ -63,7 +67,7 @@ body {
         }
 
         a {
-            color: colors.get(#{$scheme}, "primary-intense");
+            color: colors.get(#{$scheme}, "link");
         }
     }
 }

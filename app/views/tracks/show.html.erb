@@ -1,53 +1,84 @@
 <div>
-    <%= link_to "Home", root_path %> &raquo;
-    <%= link_to "Tracks", tracks_path %>
+	<%= link_to "Home", root_path %> &raquo;
+	<%= link_to "Tracks", tracks_path %>
 </div>
 
 <div class="button-container">
-    <%= link_to "PoK items", pok_items_track_path %> |
-    <%= link_to "Edit track", edit_track_path %> |
-    <%= link_to "Delete track", url_for(action: :destroy, id: @track.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+	<%= link_to "PoK items", pok_items_track_path %> |
+	<%= link_to "Edit track", edit_track_path %> |
+	<%= link_to "Delete track", url_for(action: :destroy, id: @track.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
 </div>
 
 <h1><%= @track.name %></h1>
+<div class="list-level-2">
+<table>
+	<% @track.chapters.each do |chapter| %>
+		<tr>
+			<td>
+				<%= form_with url: move_chapter_track_path(@track), method: :patch, class: "tiny-form" do |f| %>
+					<%= f.hidden_field :chapter_id, value: chapter.id %>
+					<%= f.hidden_field :direction, value: "up" %>
+					<%= f.submit "arrow_downward", class: "material-icons little-button" %>
+				<% end %>
+				<%= form_with url: move_chapter_track_path(@track), method: :patch, class: "tiny-form" do |f| %>
+					<%= f.hidden_field :chapter_id, value: chapter.id %>
+					<%= f.hidden_field :direction, value: "down" %>
+					<%= f.submit "arrow_upward", class: "material-icons little-button" %>
+				<% end %>
+				<%= chapter.index %>. <%= link_to chapter.name, chapter_path(chapter) %>
+			</td>
+			<td>
+				<%= form_with url: move_to_track_path(@track), method: :patch, class: "tiny-form" do |f| %>
+					<%= f.hidden_field :chapter_id, value: chapter.id %>
+					<%= f.submit "arrow_right", class: "material-icons little-button" %>
+					<%= f.collection_select :new_track_id, Track.all, :id, :name, selected: default_track_id %>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<% chapter.sections.each do |section| %>
+					<% if section.index != 0 %>
+						<div class="list-level-3">
+							<%=link_to section.name, section_path(section) %>
+						</div>
+					<% end %>
 
-<% @track.chapters.each do |chapter| %>
-    <div class="list-level-1">
-        <%= chapter.index %>. <%= link_to chapter.name, chapter_path(chapter) %>
-        <% chapter.sections.each do |section| %>
-            
-                {<%= link_to section.name, section_path(section) %>
-                <%= form_with url: section_absorb_orphan_PoKs_track_path, class: "inline", method: :patch do |f| %>
-                    <%= f.hidden_field :section_id, value: section.id %>
-                    <%= f.submit "arrow_back_2", class: "material-icons little-button" %>
-                <% end %>}
-            
-            <div class="list-level-2" style="font-size: xx-small">&middot;
-            <% section.pok_items.each do |pok_item| %>
-                <%= pok_item.name %> &middot;
-            <% end %>
-            </div>
-        <% end %>
-    </div>
-<% end %>
+					<%# form_with url: section_absorb_orphan_PoKs_track_path, class: "inline", method: :patch do |f| %>
+						<%# f.hidden_field :section_id, value: section.id %>
+						<%# f.submit "arrow_back_2", class: "material-icons little-button" %>
+						<%# end %>
 
-<h2>Add new chapter</strong></h2>
+						<!-- <div class="list-level-3" style="font-size: xx-small">&middot; -->
+						<%# section.pok_items.each do |pok_item| %>
+							<%# pok_item.name %> <!-- &middot; -->
+							<%# end %>
+							<!-- </div> -->
+						<% end %>
+					</div>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+</div>
+
+	<h2>Add new chapter</strong></h2>
 
 <div>
-    <%= form_with model: @chapter, url: chapters_path, method: :post do |f| %>
-        <%= f.hidden_field :track_id, value: @track.id %>
-        <table>
-            <tr>
-                <td><%= f.label :index %></td>
-                <td><%= f.label :name %></td>
-            </tr>
-            <tr>
-                <td><%= f.number_field :index, value: 0 %></td>
-                <td><%= f.text_field :name %></td>
-            </tr>
-        </table>
-        <div>
-            <%= f.submit %>
-        </div>
-    <% end %>
+	<%= form_with model: @chapter, url: chapters_path, method: :post do |f| %>
+		<%= f.hidden_field :track_id, value: @track.id %>
+		<table>
+			<tr>
+				<td><%= f.label :index %></td>
+				<td><%= f.label :name %></td>
+			</tr>
+			<tr>
+				<td><%= f.number_field :index, value: 0 %></td>
+				<td><%= f.text_field :name %></td>
+			</tr>
+		</table>
+		<div>
+			<%= f.submit %>
+		</div>
+	<% end %>
 </div>

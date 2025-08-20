@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import PokItemsController from "./pok_items_controller"
 application.register("pok-items", PokItemsController)
+
+import VisibilityTogglerController from "./visibility_toggler_controller"
+application.register("visibility-toggler", VisibilityTogglerController)

@@ -1,0 +1,2 @@
+class TrackCategory < ApplicationRecord
+end

@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-  before_action :set_track, only: [ :show, :destroy, :edit, :update, :pok_items, :assign_to_chapter ]
+  before_action :set_track, only: [ :show, :destroy, :edit, :update, :pok_items, :assign_to_chapter, :move_chapter, :move_to ]
 
   def index
     @tracks = Track.all
@@ -62,7 +62,15 @@ class TracksController < ApplicationController
     chapter = Chapter.find(params[:chapter_id])
     track = Track.find(params[:new_track_id])
     chapter.update(track: track)
-    redirect_to tracks_path
+    redirect_to track_path(@track)
+  end
+
+  def move_chapter
+    direction = params[:direction]
+    chapter = Chapter.find(params[:chapter_id])
+    adjust = direction == "down" ? -1 : 1
+    chapter.changeIndex(adjust)
+    redirect_to track_path(@track)
   end
 
   private

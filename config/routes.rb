@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get :pok_items
       patch :assign_to_chapter
       patch :section_absorb_orphan_PoKs
+      patch :move_chapter
+      patch :move_to
     end
   end
   resources :chapters do
@@ -27,13 +29,16 @@ Rails.application.routes.draw do
       patch :add_pattern_chunk
       patch :move_chunk
       patch :remove_chunk
+      patch :associate_subject_item
       patch :associate_pok_item
+      patch :unassociate_subject_item
       patch :unassociate_pok_item
       patch :move_pok_item_to
       patch :absorb_orphan_PoKs
     end
   end
   resources :chunks, only: [ :edit, :update ]
+  resources :subject_items
   resources :pok_items do
     collection do
       get :orphans

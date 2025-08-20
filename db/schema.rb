@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_16_192556) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_20_163304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,11 +56,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_16_192556) do
     t.index ["chapter_id"], name: "index_sections_on_chapter_id"
   end
 
+  create_table "subject_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "level"
+    t.string "name"
+    t.string "description"
+    t.integer "sequence"
+    t.uuid "parent_item_id"
+    t.uuid "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["parent_item_id"], name: "index_subject_items_on_parent_item_id"
+    t.index ["section_id"], name: "index_subject_items_on_section_id"
+  end
+
+  create_table "track_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "index"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tracks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "index"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "track_category_id"
+    t.index ["track_category_id"], name: "index_tracks_on_track_category_id"
   end
 
   add_foreign_key "chapters", "tracks"
@@ -68,4 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_16_192556) do
   add_foreign_key "pok_items", "pok_items", column: "parent_item_id"
   add_foreign_key "pok_items", "sections"
   add_foreign_key "sections", "chapters"
+  add_foreign_key "subject_items", "sections"
+  add_foreign_key "subject_items", "subject_items", column: "parent_item_id"
+  add_foreign_key "tracks", "track_categories"
 end

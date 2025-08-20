@@ -13,10 +13,13 @@
 <h1><%= @chapter.track.name %> &raquo; <%= @chapter.name %></h1>
 
 <% @chapter.sections.each do |section| %>
-    <div class="list-level-1">
+    <div class="list-level-3">
         <%= section.index %>. <%= link_to section.name, section_path(section) %>
     </div>
-        <div class="list-level-2" style="font-size: x-small">&middot;
+        <div class="list-level-4" style="font-size: x-small">&middot;
+        <% section.subject_items.each do |subject_item| %>
+            <span class="notice"><%= subject_item.name %></span> &middot;
+        <% end %>
         <% section.pok_items.each do |pok_item| %>
             <%= pok_item.name %> &middot;
         <% end %>

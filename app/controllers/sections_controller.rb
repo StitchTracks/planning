@@ -1,5 +1,5 @@
 class SectionsController < ApplicationController
-  before_action :set_section, only: [ :show, :destroy, :update, :associate_pok_item, :unassociate_pok_item, :move_pok_item_to, :add_subtitle_chunk, :add_copy_chunk, :add_figure_chunk, :add_video_chunk, :add_pattern_chunk, :move_chunk, :remove_chunk, :absorb_orphan_PoKs ]
+  before_action :set_section, only: [ :show, :destroy, :update, :associate_subject_item, :associate_pok_item, :unassociate_subject_item, :unassociate_pok_item, :move_pok_item_to, :add_subtitle_chunk, :add_copy_chunk, :add_figure_chunk, :add_video_chunk, :add_pattern_chunk, :move_chunk, :remove_chunk, :absorb_orphan_PoKs ]
 
   def create
     @section = Section.new(section_params)
@@ -95,10 +95,21 @@ class SectionsController < ApplicationController
     redirect_to section_path(@section)
   end
 
+  def associate_subject_item
+    subject_item = SubjectItem.find(params[:subject_item])
+    subject_item.update(section: @section)
+    redirect_to section_path(@section)
+  end
+
   def associate_pok_item
     pok_item = PokItem.find(params[:pok_item])
-    pok_item.section = @section
-    pok_item.save
+    pok_item.update(section: @section)
+    redirect_to section_path(@section)
+  end
+
+  def unassociate_subject_item
+    subject_item = SubjectItem.find(params[:subject_item_id])
+    subject_item.update(section: nil)
     redirect_to section_path(@section)
   end
 

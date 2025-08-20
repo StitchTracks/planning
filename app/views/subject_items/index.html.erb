@@ -1,0 +1,17 @@
+<h1>Subject items</h1>
+
+<% @subject_items.each do |subject_item| %>
+	<div style="margin-top: 20px;" class="list-level-1">
+		<%= subject_item.sequence %>. <%= subject_item.name %>
+		<% if subject_item.section != nil %>
+			<span style="font-size: small">(
+				<%= subject_item.section.chapter.track.name %> |
+				<%= subject_item.section.chapter.name %> |
+				<%= subject_item.section.name %>
+			)</span>
+		<% end %>
+	</div>
+	<div class="list-level-2 notice" style="font-size: small">
+		(<%= subject_item.description %>)
+	</div>
+<% end %>
