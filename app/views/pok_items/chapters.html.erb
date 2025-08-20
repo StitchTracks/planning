@@ -30,7 +30,7 @@
 
     <div>
         <%= link_to chapter.name, pok_item_path(chapter.id), style: "color:#{color}" %> 
-        <span style="color:<%= color %>">(<%= percent_complete %>%)</span>
+        <span style="color:<%= color %>">(<%= chapter.page %>) [<%= percent_complete %>%]</span>
     </div>
         <% if chapter.section == nil %>
             <%= form_with url: assign_to_chapter_pok_item_path(chapter), method: :patch do |f| %>

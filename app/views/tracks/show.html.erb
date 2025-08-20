@@ -25,7 +25,7 @@
 					<%= f.hidden_field :direction, value: "down" %>
 					<%= f.submit "arrow_upward", class: "material-icons little-button" %>
 				<% end %>
-				<%= chapter.index %>. <%= link_to chapter.name, chapter_path(chapter) %>
+				<%= chapter.index %>. <%= link_to chapter.name, chapter_path(chapter) %> [<%= chapter.pok_count %>]
 			</td>
 			<td>
 				<%= form_with url: move_to_track_path(@track), method: :patch, class: "tiny-form" do |f| %>
