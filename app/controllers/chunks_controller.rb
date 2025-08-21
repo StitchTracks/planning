@@ -25,6 +25,8 @@ class ChunksController < ApplicationController
       params.expect(video: [ :index, :content ])
     elsif type == "Pattern"
       params.expect(pattern: [ :index, :content ])
+    elsif type == "Aside"
+      params.expect(aside: [ :index, :content ])
     else
       params.expect(chunk: [ :index, :content ])
     end

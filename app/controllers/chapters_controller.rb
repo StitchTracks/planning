@@ -1,5 +1,5 @@
 class ChaptersController < ApplicationController
-  before_action :set_chapter, only: [ :show, :destroy, :update, :preview ]
+  before_action :set_chapter, only: [ :show, :destroy, :update, :preview, :move_section ]
 
   def create
     @chapter = Chapter.new(chapter_params)
@@ -25,6 +25,14 @@ class ChaptersController < ApplicationController
   def update
     @chapter.update(chapter_params)
     redirect_to @chapter.track, notice: "Chapter was successfully updated."
+  end
+
+  def move_section
+    direction = params[:direction]
+    section = Section.find(params[:section_id])
+    adjust = direction == "down" ? -1 : 1
+    section.changeIndex(adjust)
+    redirect_to chapter_path(@chapter)
   end
 
   def preview

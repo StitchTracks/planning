@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
   resources :chapters do
     member do
+      patch :move_section
       get :preview
     end
   end
@@ -27,7 +28,9 @@ Rails.application.routes.draw do
       patch :add_figure_chunk
       patch :add_video_chunk
       patch :add_pattern_chunk
+      patch :add_aside_chunk
       patch :move_chunk
+      patch :move_chunk_to
       patch :remove_chunk
       patch :associate_subject_item
       patch :associate_pok_item

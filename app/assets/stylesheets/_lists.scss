@@ -11,6 +11,10 @@ $m-unit: 30px;
     .list-level-6 { margin-left: $m-unit * 6; font-weight: 500; font-size: x-small; }
     .list-level-7 { margin-left: $m-unit * 7; font-weight: 700; font-size: xx-small; }
     .list-level-8 { margin-left: $m-unit * 8; font-weight: 500; font-size: xx-small; }
+
+    ul li ul li {
+        list-style-type: "·  ";
+    }
 }
 
 @mixin c-lists($scheme) {

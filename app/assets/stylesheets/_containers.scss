@@ -19,7 +19,7 @@
         font-size: 1.3em;
         font-weight: 700;
     }
-    .chunk-Copy, .chunk-Pattern {
+    .chunk-Copy, .chunk-Pattern, .chunk-Aside {
         padding: 10px 20px;
         font-size: 1.1em
     }
@@ -52,7 +52,7 @@
         border: solid 1px colors.get($scheme, "content-fade");
         padding: 20px;
     }
-    .chunk-Subtitle, .chunk-Copy, .chunk-Firgure, .chunk-Video, .chunk-Pattern {
+    .chunk-Subtitle, .chunk-Copy, .chunk-Firgure, .chunk-Video, .chunk-Pattern, .chunk-Aside {
         border-left: solid 1px colors.get($scheme, "content-fade");
     }
     .chunk-Subtitle {
@@ -69,5 +69,8 @@
     .chunk-Pattern {
         background-color: colors.get($scheme, "contrast-subtle");
         border: solid 1px colors.get($scheme, "content-fade");
+    }
+    .chunk-Aside {
+        color: colors.get($scheme, "contrast");
     }
 }

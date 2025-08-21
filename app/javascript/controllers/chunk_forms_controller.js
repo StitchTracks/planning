@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="chunk-forms"
 export default class extends Controller {
-  static targets = [ "formSubtitle", "formCopy", "formFigure", "formVideo", "formPattern", 
+  static targets = [ "formSubtitle", "formCopy", "formFigure", "formVideo", "formPattern", "formAside", 
     "figContent", "figNum", "figDesc" ]
 
   refreshFigContent() {
@@ -26,6 +26,9 @@ export default class extends Controller {
     }
     if (e.target.id == "show-form-btn-pattern") {
       this.toggleHidden(this.formPatternTarget)
+    }
+    if (e.target.id == "show-form-btn-aside") {
+      this.toggleHidden(this.formAsideTarget)
     }
   }
 

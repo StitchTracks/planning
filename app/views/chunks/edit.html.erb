@@ -16,8 +16,8 @@
         </div>
         <div data-controller="chunk-forms">
             <%= f.label :content %><br />
-            <% if @chunk.type == "Copy" || @chunk.type == "Pattern" %>
-                <%= f.rich_text_area :content, style: "height: 300px" %>
+            <% if @chunk.type == "Copy" || @chunk.type == "Pattern" || @chunk.type == "Aside" %>
+                <%= f.rich_text_area :content, style: "height: 500px" %>
             <% end %>
             <% if @chunk.type == "Subtitle" || @chunk.type == "Video" %>
                 <%= f.text_field :content, style: "width: 100%" %>

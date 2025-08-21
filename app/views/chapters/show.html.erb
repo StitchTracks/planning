@@ -7,22 +7,39 @@
 <div class="button-container">
     <%= link_to "Preview chapter", preview_chapter_path %> |
     <%= link_to "Edit chapter", edit_chapter_path %> |
-    <%= link_to "Delete chapter", url_for(action: :destroy, id: @chapter.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
+    <%= link_to "Delete chapter", url_for(action: :destroy, id: @chapter.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
 </div>
 
 <h1><%= @chapter.track.name %> &raquo; <%= @chapter.name %></h1>
 
 <% @chapter.sections.each do |section| %>
-    <div class="list-level-3">
+    <div class="list-level-2">
+        <%= form_with url: move_section_chapter_path(@chapter), method: :patch, class: "tiny-form" do |f| %>
+            <%= f.hidden_field :section_id, value: section.id %>
+            <%= f.hidden_field :direction, value: "up" %>
+            <%= f.submit "arrow_downward", class: "material-icons little-button" %>
+        <% end %>
+        <%= form_with url: move_section_chapter_path(@chapter), method: :patch, class: "tiny-form" do |f| %>
+            <%= f.hidden_field :section_id, value: section.id %>
+            <%= f.hidden_field :direction, value: "down" %>
+            <%= f.submit "arrow_upward", class: "material-icons little-button" %>
+        <% end %>
         <%= section.index %>. <%= link_to section.name, section_path(section) %>
     </div>
-        <div class="list-level-4" style="font-size: x-small">&middot;
-        <% section.subject_items.each do |subject_item| %>
-            <span class="notice"><%= subject_item.name %></span> &middot;
-        <% end %>
-        <% section.pok_items.each do |pok_item| %>
-            <%= pok_item.name %> &middot;
-        <% end %>
+        <div class="list-level-3" style="font-size: x-small">&middot;
+            <% section.subject_items.each do |subject_item| %>
+                <span class="notice"><%= subject_item.name %></span> &middot;
+            <% end %>
+            <% section.pok_items.each do |pok_item| %>
+                <%= pok_item.name %> &middot;
+            <% end %>
+        </div>
+        <div class="list-level-4" style="font-size: small">
+            <% section.chunks.each do |chunk| %>
+                <% if chunk.type == "Subtitle" %>
+                    <%= chunk.content %><br>
+                <% end %>
+            <% end %>
         </div>
 <% end %>
 

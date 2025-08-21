@@ -16,6 +16,9 @@
     <% section.chunks.each do |chunk| %>
 
         <div class="preview-chunk-<%= chunk.type %>">
+            <% if chunk.type == "Aside" %>
+                <div class="border-small-header">:: Note ::</div>
+            <% end %>
             <%= chunk.content_to_html %>
         </div>
 

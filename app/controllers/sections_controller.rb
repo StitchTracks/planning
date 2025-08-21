@@ -1,5 +1,5 @@
 class SectionsController < ApplicationController
-  before_action :set_section, only: [ :show, :destroy, :update, :associate_subject_item, :associate_pok_item, :unassociate_subject_item, :unassociate_pok_item, :move_pok_item_to, :add_subtitle_chunk, :add_copy_chunk, :add_figure_chunk, :add_video_chunk, :add_pattern_chunk, :move_chunk, :remove_chunk, :absorb_orphan_PoKs ]
+  before_action :set_section, only: [ :show, :destroy, :update, :associate_subject_item, :associate_pok_item, :unassociate_subject_item, :unassociate_pok_item, :move_pok_item_to, :add_subtitle_chunk, :add_copy_chunk, :add_figure_chunk, :add_video_chunk, :add_pattern_chunk, :add_aside_chunk, :move_chunk, :move_chunk_to, :remove_chunk, :absorb_orphan_PoKs ]
 
   def create
     @section = Section.new(section_params)
@@ -80,11 +80,28 @@ class SectionsController < ApplicationController
     redirect_to section_path(@section)
   end
 
+  def add_aside_chunk
+    Aside.create(
+      section: @section,
+      index: getNextIndex(@section),
+      content: params[:aside]
+    )
+    redirect_to section_path(@section)
+  end
+
   def move_chunk
     direction = params[:direction]
     chunk = Chunk.find(params[:chunk_id])
     adjust = direction == "down" ? -1 : 1
     chunk.changeIndex(adjust)
+    redirect_to section_path(@section)
+  end
+
+  def move_chunk_to
+    new_section_id = params[:new_section_id]
+    chunk_id = params[:chunk_id]
+    chunk = Chunk.find(chunk_id)
+    chunk.update(section_id: new_section_id)
     redirect_to section_path(@section)
   end
 

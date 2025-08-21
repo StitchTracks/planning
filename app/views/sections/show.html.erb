@@ -6,6 +6,7 @@
 </div>
 
 <div class="button-container">
+    <%= link_to "Preview chapter", preview_chapter_path(@section.chapter) %> |
 	<%= link_to "Edit section", edit_section_path %> |
 	<%= link_to "Delete section", url_for(action: :destroy, id: @section.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
 </div>
@@ -29,9 +30,14 @@
 					<% end %>
 					<%= form_with url: remove_chunk_section_path(@section), method: :patch, class: "tiny-form" do |f| %>
 						<%= f.hidden_field :chunk_id, value: chunk.id %>
-						<%= f.submit "highlight_off", class: "material-icons little-button alert" %>
+						<%= f.submit "highlight_off", class: "material-icons little-button alert", data: { turbo_confirm: "Are you sure?" } %>
 					<% end %>
 					<%= link_to "edit_square", edit_chunk_path(chunk), class: "material-icons little-button" %>
+					<%= form_with url: move_chunk_to_section_path(@section), method: :patch, class: "tiny-form" do |f| %>
+						<%= f.hidden_field :chunk_id, value: chunk.id %>
+						<%= f.submit "subdirectory_arrow_left", class: "material-icons little-button" %>
+						<%= f.collection_select :new_section_id, @section.chapter.sections, :id, :name %>
+					<% end %>
 				</td>
 				<td><%= chunk.index %></td>
 				<td>
@@ -51,6 +57,7 @@
 	<button id="show-form-btn-figure" data-action="chunk-forms#toggleForm">Add figure</button>
 	<button id="show-form-btn-video" data-action="chunk-forms#toggleForm">Add video</button>
 	<button id="show-form-btn-pattern" data-action="chunk-forms#toggleForm">Add pattern</button>
+	<button id="show-form-btn-aside" data-action="chunk-forms#toggleForm">Add aside</button>
 	<div class="form-container hidden" data-chunk-forms-target="formSubtitle">
 		<%= form_with url: add_subtitle_chunk_section_path(@section), method: :patch do |f| %>
 			<%= f.label :subtitle %><br />
@@ -83,6 +90,13 @@
 		<%= form_with url: add_pattern_chunk_section_path(@section), method: :patch do |f| %>
 			<%= f.label :pattern %><br />
 			<%= f.rich_text_area :pattern, style: "height: 300px" %>
+			<%= f.submit "Add" %>
+		<% end %>
+	</div>
+	<div class="form-container hidden" data-chunk-forms-target="formAside">
+		<%= form_with url: add_aside_chunk_section_path(@section), method: :patch do |f| %>
+			<%= f.label :aside %><br />
+			<%= f.rich_text_area :aside, style: "height: 100px" %>
 			<%= f.submit "Add" %>
 		<% end %>
 	</div>
