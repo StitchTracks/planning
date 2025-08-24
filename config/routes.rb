@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       patch :unassociate_pok_item
       patch :move_pok_item_to
       patch :absorb_orphan_PoKs
+      post :set_input_mode
     end
   end
   resources :chunks, only: [ :edit, :update ]

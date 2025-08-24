@@ -1,3 +1,11 @@
+<div style="float:right">
+	Input mode:<br>
+	<%= form_with url: set_input_mode_section_path, method: :post, class: "tiny-form" do |f| %>
+		<%= f.select :mode, [["Rich", "rich"], ["Basic", "basic"]], selected: input_mode %>
+		<%= f.submit "»" %>
+	<% end %>
+</div>
+
 <div>
 	<%= link_to "Home", root_path %> &raquo;
 	<%= link_to "Tracks", tracks_path %> &raquo;
@@ -5,7 +13,7 @@
 	<%= link_to @section.chapter.name, chapter_path(@section.chapter) %>
 </div>
 
-<div class="button-container">
+<div class="button-container" style="clear: both;">
     <%= link_to "Preview chapter", preview_chapter_path(@section.chapter) %> |
 	<%= link_to "Edit section", edit_section_path %> |
 	<%= link_to "Delete section", url_for(action: :destroy, id: @section.id), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
@@ -68,7 +76,11 @@
 	<div class="form-container hidden" data-chunk-forms-target="formCopy">
 		<%= form_with url: add_copy_chunk_section_path(@section), method: :patch do |f| %>
 			<%= f.label :copy %><br />
-			<%= f.rich_text_area :copy, style: "height: 300px" %>
+			<% if input_mode == "basic" %>
+				<%= f.text_area :copy, style: "width: 100%; height: 300px" %>
+			<% else %>
+				<%= f.rich_text_area :copy, style: "height: 300px" %>
+			<% end %>
 			<%= f.submit "Add" %>
 		<% end %>
 	</div>
@@ -89,14 +101,22 @@
 	<div class="form-container hidden" data-chunk-forms-target="formPattern">
 		<%= form_with url: add_pattern_chunk_section_path(@section), method: :patch do |f| %>
 			<%= f.label :pattern %><br />
-			<%= f.rich_text_area :pattern, style: "height: 300px" %>
+			<% if input_mode == "basic" %>
+				<%= f.text_area :pattern, style: "width: 100%; height: 300px" %>
+			<% else %>
+				<%= f.rich_text_area :pattern, style: "height: 300px" %>
+			<% end %>
 			<%= f.submit "Add" %>
 		<% end %>
 	</div>
 	<div class="form-container hidden" data-chunk-forms-target="formAside">
 		<%= form_with url: add_aside_chunk_section_path(@section), method: :patch do |f| %>
 			<%= f.label :aside %><br />
-			<%= f.rich_text_area :aside, style: "height: 100px" %>
+			<% if input_mode == "basic" %>
+				<%= f.text_area :aside, style: "width: 100%; height: 100px" %>
+			<% else %>
+				<%= f.rich_text_area :aside, style: "height: 100px" %>
+			<% end %>
 			<%= f.submit "Add" %>
 		<% end %>
 	</div>

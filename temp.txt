@@ -1,0 +1,38 @@
+<table>
+  <tr>
+    <th>Symbol</th>
+    <th>Example</th>
+    <th>Meaning (of example)</th>
+    <th>Variations</th>
+  </tr>
+  <tr>
+    <td>st(s)</td>
+    <td>6 sts</td>
+    <td>6 stitches</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>k</td>
+    <td>k2</td>
+    <td>knit 2 stitches</td>
+    <td>K2</td>
+  </tr>
+  <tr>
+    <td>p</td>
+    <td>p5</td>
+    <td>purl 5 stitches</td>
+    <td>P5</td>
+  </tr>
+  <tr>
+    <td>CO</td>
+    <td>CO 55</td>
+    <td>cast on 55 stitches</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>BO</td>
+    <td>BO all</td>
+    <td>bind off all stitches</td>
+    <td>CO (cast off)</td>
+  </tr>
+</table>

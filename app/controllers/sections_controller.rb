@@ -35,6 +35,12 @@ class SectionsController < ApplicationController
     end
   end
 
+
+  def set_input_mode
+      session[:input_mode] = params[:mode]
+      redirect_back_or_to root_path
+  end
+
   def add_subtitle_chunk
     Subtitle.create(
       section: @section,

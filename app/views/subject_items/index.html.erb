@@ -15,3 +15,14 @@
 		(<%= subject_item.description %>)
 	</div>
 <% end %>
+<br>
+<h3>Add</h3>
+<%= form_with url: subject_items_path, method: :post do |f| %>
+	Name:<br>
+	<%= f.text_field :name %><br>
+	Description<br>
+	<%= f.text_field :description %><br>
+	<%= f.submit %>
+<% end%>
+
+Sequence knitting

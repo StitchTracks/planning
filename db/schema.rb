@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_20_163304) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_22_124346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,6 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_163304) do
     t.uuid "section_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "done", default: false
     t.index ["parent_item_id"], name: "index_pok_items_on_parent_item_id"
     t.index ["section_id"], name: "index_pok_items_on_section_id"
   end
