@@ -75,6 +75,11 @@
         background-color: colors.get($scheme, "contrast-subtle");
         border: solid 1px colors.get($scheme, "content-fade");
     }
+    .pattern-inline {
+        background-color: colors.get($scheme, "contrast-subtle");
+        font-family: fonts.$pattern;
+        padding: 0 3px;
+    }
     .preview-chunk-Aside {
         background-color: colors.get($scheme, "blanket");
         border: solid 1px colors.get($scheme, "content-fade");

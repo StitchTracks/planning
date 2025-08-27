@@ -46,6 +46,14 @@ body {
     a {
         text-decoration: none;
     }
+
+    td, th {
+        vertical-align: text-top
+    }
+
+    .small-font {
+        font-size: small;
+    }
 }
 
 @each $scheme, $map in colors.$schemes {
