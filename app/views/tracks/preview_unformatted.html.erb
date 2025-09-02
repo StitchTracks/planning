@@ -1,0 +1,20 @@
+<h1><%= @track.name %></h1>
+<% @track.chapters.each do |chapter| %>
+    <h2><%= chapter.name %></h2>
+    <% chapter.sections.each do |section| %>
+        <h3><%= section.name %></h3>
+        <% section.chunks.each do |chunk| %>
+            <% if chunk.type == "Subtitle" %>
+                <h4><%= chunk.content_to_html %></h4>
+            <% elsif chunk.type == "Figure" %>
+                <h5>[IMAGE] <%= chunk.content_to_html %></h5>
+            <% elsif chunk.type == "Video" %>
+                <h5>[VIDEO] <%= chunk.content_to_html %></h5>
+            <% elsif chunk.type == "Aside" %>
+                <div style="font-size: small"><%= chunk.content_to_html %></div>
+            <% else %>
+                <%= chunk.content_to_html %>
+            <% end %>
+        <% end %>    
+    <% end %>
+<% end %>

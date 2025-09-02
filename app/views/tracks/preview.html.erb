@@ -1,0 +1,32 @@
+<div>
+    <%= link_to "Home", root_path %> &raquo;
+    <%= link_to "Tracks", tracks_path %> &raquo;
+    <%= link_to @track.name, track_path(@track) %>
+</div>
+
+<h1><%= @track.name %></h1>
+
+<% @track.chapters.each do |chapter| %>
+
+    <div class="preview-chapter-name"><%= chapter.name %></div>
+
+    <% chapter.sections.each do |section| %>
+        
+        <% if section. index > 0 %>
+            <div class="preview-section-name"><%= section.name %></div>
+        <% end %>
+
+        <% section.chunks.each do |chunk| %>
+
+            <div class="preview-chunk-<%= chunk.type %>">
+                <% if chunk.type == "Aside" %>
+                    <div class="border-small-header">:: Note ::</div>
+                <% end %>
+                <%= chunk.content_to_html %>
+            </div>
+
+        <% end %>
+        
+    <% end %>
+        
+<% end %>

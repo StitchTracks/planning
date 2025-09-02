@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       patch :section_absorb_orphan_PoKs
       patch :move_chapter
       patch :move_to
+      get :preview
+      get :preview_unformatted
     end
   end
   resources :chapters do

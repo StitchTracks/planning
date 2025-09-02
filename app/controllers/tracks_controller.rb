@@ -1,5 +1,5 @@
 class TracksController < ApplicationController
-  before_action :set_track, only: [ :show, :destroy, :edit, :update, :pok_items, :assign_to_chapter, :move_chapter, :move_to ]
+  before_action :set_track, only: [ :show, :destroy, :edit, :update, :preview, :preview_unformatted, :pok_items, :assign_to_chapter, :move_chapter, :move_to ]
 
   def index
     @tracks = Track.all
@@ -31,6 +31,12 @@ class TracksController < ApplicationController
   def update
     @track.update(track_params)
     redirect_to @track, notice: "Track was successfully updated."
+  end
+
+  def preview
+  end
+
+  def preview_unformatted
   end
 
   def pok_items
