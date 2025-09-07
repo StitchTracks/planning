@@ -25,6 +25,7 @@
 			<% track.chapters.each do |chapter| %>
 				<% if chapter.index != 0 %>
 					<div class="list-level-2">
+						<%= chapter.index %>
 						<%= link_to chapter.name, chapter_path(chapter), style: "text-decoration:none" %>
 						<%# form_with url: move_to_tracks_path, class: "inline", method: :patch do |f| %>
 							<%# f.hidden_field :chapter_id, value: chapter.id %>
